@@ -1,4 +1,5 @@
 using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace BatchLookup
 {
@@ -41,7 +42,7 @@ namespace BatchLookup
                 JArray data = (JArray)json["data"];
 
                 richTextBox1.Clear();
-                richTextBox1.Font = new Font("Consolas", 13);
+                richTextBox1.Font = new Font("Consolas", 15);
 
                 foreach (var item in data)
                 {
@@ -159,5 +160,93 @@ namespace BatchLookup
                 richTextBox2.Text = ex.Message;
             }
         }
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string batch = textBox3.Text.Trim();
+                string apiUrl = $"http://mspnkc/api/tests/{batch}";
+                string response = await client.GetStringAsync(apiUrl);
+                JObject json = JObject.Parse(response);
+                JArray data = (JArray)json["data"];
+
+                richTextBox3.Clear();
+                richTextBox3.Font = new Font("Consolas", 15);
+
+                var testNameMap = new Dictionary<string, string>()
+                    {
+                        { "copper-corrosion", "Copper Corrosion" },
+                        { "oil-bleed-24", "Oil Bleed (24 hrs)" },
+                        { "oil-bleed-30", "Oil Bleed (30 hrs)" },
+                        { "oxidation", "Oxidation" },
+                        { "pressure-bleed", "Pressure Bleed" },
+                        { "rust", "Rust" },
+                        { "rust-seawater", "Rust (Synthetic Seawater)"},
+                        { "salt-fog", "Salt Fog" },
+                        { "soak", "Soak Test" },
+                        { "water-washout", "Water Washout" },
+                    };
+                foreach (var item in data)
+                {
+                    foreach (var prop in item.Children<JProperty>())
+                    {
+                        if (prop.Name == "id" || prop.Name == "notified")
+                            continue;
+
+                        string niceName = System.Globalization.CultureInfo.CurrentCulture.TextInfo
+                                             .ToTitleCase(prop.Name.Replace("_", " ").Replace("-", " "));
+
+                        string valueToShow = "";
+
+                        if (prop.Name == "due")
+                        {
+                            DateTime utcDate = DateTime.Parse(prop.Value.ToString(), null, DateTimeStyles.AdjustToUniversal);
+
+                            DateTime chicagoDate = TimeZoneInfo.ConvertTimeFromUtc(
+                                utcDate,
+                                TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time")
+                            );
+
+                            valueToShow = chicagoDate.ToString("yyyy-MM-dd hh:mm:ss tt");
+                        }
+                        else if (prop.Name == "test")
+                        {
+                            string rawTest = prop.Value.ToString();
+
+                            valueToShow = testNameMap.ContainsKey(rawTest)
+                                ? testNameMap[rawTest]
+                                : CultureInfo.CurrentCulture.TextInfo
+                                    .ToTitleCase(rawTest.Replace("_", " ").Replace("-", " "));
+                        }
+                        else
+                        {
+                            valueToShow = prop.Value.ToString();
+                        }
+
+                        richTextBox3.SelectionFont = new Font(richTextBox3.Font, FontStyle.Bold);
+                        richTextBox3.AppendText(niceName.PadRight(20));
+
+                        richTextBox3.SelectionFont = new Font(richTextBox3.Font, FontStyle.Regular);
+                        richTextBox3.AppendText(valueToShow + "\n");
+                    }
+
+                    richTextBox3.AppendText("\n");
+                }
+
+                if (richTextBox3.Text == "" && batch != "")
+                {
+                    richTextBox3.Text = "No active tests for batch";
+                }
+                else if (richTextBox3.Text == "")
+                {
+                    richTextBox3.Text = "No active tests";
+                }
+            }
+            catch (Exception ex)
+            {
+                richTextBox3.Text = ex.Message;
+            }
+        }
+
     }
 }
