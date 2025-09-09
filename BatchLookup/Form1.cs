@@ -47,16 +47,52 @@ namespace BatchLookup
                 {
                     foreach (var prop in item.Children<JProperty>())
                     {
-                        // Convert field name from "pen_60x" -> "Pen 60x"
                         string niceName = System.Globalization.CultureInfo.CurrentCulture.TextInfo
                                           .ToTitleCase(prop.Name.Replace("_", " "));
 
-                        string valueToShow = prop.Name == "date"
-                            ? DateTime.Parse(prop.Value.ToString()).ToString("yyyy-MM-dd")
-                            : prop.Value.ToString();
+                        string valueToShow;
+
+                        if (prop.Name == "date")
+                        {
+                            string dateStr = prop.Value?.ToString()?.Trim() ?? "";
+
+                            if (string.IsNullOrEmpty(dateStr))
+                            {
+                                valueToShow = "";
+                            }
+                            else if (dateStr.Contains("-"))
+                            {
+                                var dates = dateStr.Split('-').Select(d => d.Trim()).ToArray();
+                                if (dates.Length == 2 &&
+                                    DateTime.TryParse(dates[0], out DateTime startDate) &&
+                                    DateTime.TryParse(dates[1], out DateTime endDate))
+                                {
+                                    valueToShow = $"{startDate:yyyy-MM-dd} - {endDate:yyyy-MM-dd}";
+                                }
+                                else
+                                {
+                                    valueToShow = dateStr;
+                                }
+                            }
+                            else
+                            {
+                                if (DateTime.TryParse(dateStr, out DateTime singleDate))
+                                {
+                                    valueToShow = singleDate.ToString("yyyy-MM-dd");
+                                }
+                                else
+                                {
+                                    valueToShow = dateStr;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            valueToShow = prop.Value?.ToString() ?? "";
+                        }
 
                         richTextBox1.SelectionFont = new Font(richTextBox1.Font, FontStyle.Bold);
-                        richTextBox1.AppendText(niceName.PadRight(20)); // 20 chars wide
+                        richTextBox1.AppendText(niceName.PadRight(20));
 
                         richTextBox1.SelectionFont = new Font(richTextBox1.Font, FontStyle.Regular);
                         richTextBox1.AppendText(valueToShow + "\n");
@@ -104,7 +140,7 @@ namespace BatchLookup
                                              .ToTitleCase(prop.Name.Replace("_", " ").Replace("-", " "));
 
                         richTextBox2.SelectionFont = new Font(richTextBox2.Font, FontStyle.Bold);
-                        richTextBox2.AppendText(niceName.PadRight(20)); // 20 chars wide
+                        richTextBox2.AppendText(niceName.PadRight(20));
 
                         richTextBox2.SelectionFont = new Font(richTextBox2.Font, FontStyle.Regular);
                         richTextBox2.AppendText(valueToShow + "\n");
