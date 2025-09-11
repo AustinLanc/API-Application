@@ -16,7 +16,7 @@ namespace APIApp
         {
             ApplicationConfiguration.Initialize();
             Application.Run(new LoginForm());
-            /// Uncomment following line to bypass login form
+            /// Comment above line and uncomment following line to bypass login form
             /// Application.Run(new Home());
         }
     }
