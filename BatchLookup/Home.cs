@@ -1,16 +1,16 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Globalization;
 
-namespace BatchLookup
+namespace APIApp
 {
-    public partial class Form1 : Form
+    public partial class Home : Form
     {
         private readonly HttpClient client = new HttpClient();
 
-        public Form1()
+        public Home()
         {
             InitializeComponent();
-            textBox1.Focus();
+            searchBatchInput.Focus();
         }
 
         Dictionary<string, int> paddingMap = new Dictionary<string, int>()
@@ -22,19 +22,19 @@ namespace BatchLookup
             { "tests", 9 },
         };
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void searchSubmit_Click(object sender, EventArgs e)
         {
             try
             {
-                string route = radioButton1.Checked ? "qc"
-                             : radioButton2.Checked ? "testing"
+                string route = qcRouteOption.Checked ? "qc"
+                             : testingRouteOption.Checked ? "testing"
                              : "retains";
 
-                string batch = textBox1.Text.Trim();
+                string batch = searchBatchInput.Text.Trim();
 
                 if (string.IsNullOrEmpty(batch) && route != "retains")
                 {
-                    richTextBox1.Text = "Please enter a batch number";
+                    searchOutput.Text = "Please enter a batch number";
                     return;
                 }
 
@@ -43,17 +43,17 @@ namespace BatchLookup
                 JObject json = JObject.Parse(response);
                 JArray data = (JArray?)json["data"];
 
-                richTextBox1.Clear();
-                richTextBox1.Font = new Font("Consolas", 15);
+                searchOutput.Clear();
+                searchOutput.Font = new Font("Consolas", 15);
 
                 if (data == null || data.Count == 0)
                 {
-                    richTextBox1.Text = "No data found for batch";
+                    searchOutput.Text = "No data found for batch";
                     return;
                 }
 
-                using (Font boldFont = new Font(richTextBox1.Font, FontStyle.Bold))
-                using (Font regularFont = new Font(richTextBox1.Font, FontStyle.Regular))
+                using (Font boldFont = new Font(searchOutput.Font, FontStyle.Bold))
+                using (Font regularFont = new Font(searchOutput.Font, FontStyle.Regular))
                 {
                     foreach (var item in data)
                     {
@@ -69,44 +69,44 @@ namespace BatchLookup
                             string niceName = System.Globalization.CultureInfo.CurrentCulture.TextInfo
                                                  .ToTitleCase(prop.Name.Replace("_", " ").Replace("-", " "));
 
-                            richTextBox1.SelectionFont = boldFont;
-                            richTextBox1.AppendText($"{niceName}:  ".PadLeft(paddingMap[route]));
+                            searchOutput.SelectionFont = boldFont;
+                            searchOutput.AppendText($"{niceName}:  ".PadLeft(paddingMap[route]));
 
-                            richTextBox1.SelectionFont = regularFont;
-                            richTextBox1.AppendText(valueToShow + "\n");
+                            searchOutput.SelectionFont = regularFont;
+                            searchOutput.AppendText(valueToShow + "\n");
                         }
 
-                        richTextBox1.AppendText("\n");
+                        searchOutput.AppendText("\n");
                     }
                 }
             }
             catch (Exception ex)
             {
-                richTextBox1.Text = ex.Message;
+                searchOutput.Text = ex.Message;
             }
         }
-        private async void button2_Click(object sender, EventArgs e)
+        private async void remindersSubmit_Click(object sender, EventArgs e)
         {
             try
             {
                 string route = "reminders";
-                string batch = textBox2.Text.Trim();
+                string batch = reminderBatchInput.Text.Trim();
                 string apiUrl = $"http://mspnkc/api/{route}/{batch}";
                 string response = await client.GetStringAsync(apiUrl);
                 JObject json = JObject.Parse(response);
                 JArray data = (JArray)json["data"];
 
-                richTextBox2.Clear();
-                richTextBox2.Font = new Font("Consolas", 15);
+                reminderOutput.Clear();
+                reminderOutput.Font = new Font("Consolas", 15);
 
                 if (data == null || data.Count == 0)
                 {
-                    richTextBox2.Text = "No reminders found";
+                    reminderOutput.Text = "No reminders found";
                     return;
                 }
 
-                using (Font boldFont = new Font(richTextBox2.Font, FontStyle.Bold))
-                using (Font regularFont = new Font(richTextBox2.Font, FontStyle.Regular))
+                using (Font boldFont = new Font(reminderOutput.Font, FontStyle.Bold))
+                using (Font regularFont = new Font(reminderOutput.Font, FontStyle.Regular))
                 {
                     foreach (var item in data)
                     {
@@ -122,39 +122,39 @@ namespace BatchLookup
                             string niceName = System.Globalization.CultureInfo.CurrentCulture.TextInfo
                                                  .ToTitleCase(prop.Name.Replace("_", " ").Replace("-", " "));
 
-                            richTextBox2.SelectionFont = boldFont;
-                            richTextBox2.AppendText($"{niceName}:  ".PadLeft(paddingMap[route]));
+                            reminderOutput.SelectionFont = boldFont;
+                            reminderOutput.AppendText($"{niceName}:  ".PadLeft(paddingMap[route]));
 
-                            richTextBox2.SelectionFont = regularFont;
-                            richTextBox2.AppendText(valueToShow + "\n");
+                            reminderOutput.SelectionFont = regularFont;
+                            reminderOutput.AppendText(valueToShow + "\n");
                         }
-                        richTextBox2.AppendText("\n");
+                        reminderOutput.AppendText("\n");
                     }
                 }
 
-                if (richTextBox2.Text == "")
+                if (reminderOutput.Text == "")
                 {
-                    richTextBox2.Text = "No reminders found";
+                    reminderOutput.Text = "No reminders found";
                 }
             }
             catch (Exception ex)
             {
-                richTextBox2.Text = ex.Message;
+                reminderOutput.Text = ex.Message;
             }
         }
-        private async void button3_Click(object sender, EventArgs e)
+        private async void testsSubmit_Click(object sender, EventArgs e)
         {
             try
             {
                 string route = "tests";
-                string batch = textBox3.Text.Trim();
+                string batch = testsBatchInput.Text.Trim();
                 string apiUrl = $"http://mspnkc/api/{route}/{batch}";
                 string response = await client.GetStringAsync(apiUrl);
                 JObject json = JObject.Parse(response);
                 JArray data = (JArray)json["data"];
 
-                richTextBox3.Clear();
-                richTextBox3.Font = new Font("Consolas", 15);
+                testsOutput.Clear();
+                testsOutput.Font = new Font("Consolas", 15);
 
                 var testNameMap = new Dictionary<string, string>()
                 {
@@ -170,8 +170,8 @@ namespace BatchLookup
                     { "water-washout", "Water Washout" },
                 };
 
-                using (Font boldFont = new Font(richTextBox3.Font, FontStyle.Bold))
-                using (Font regularFont = new Font(richTextBox3.Font, FontStyle.Regular))
+                using (Font boldFont = new Font(testsOutput.Font, FontStyle.Bold))
+                using (Font regularFont = new Font(testsOutput.Font, FontStyle.Regular))
                 {
                     foreach (var item in data)
                     {
@@ -207,29 +207,29 @@ namespace BatchLookup
                                 valueToShow = prop.Value.ToString();
                             }
 
-                            richTextBox3.SelectionFont = boldFont;
-                            richTextBox3.AppendText($"{niceName}:  ".PadLeft(paddingMap[route]));
+                            testsOutput.SelectionFont = boldFont;
+                            testsOutput.AppendText($"{niceName}:  ".PadLeft(paddingMap[route]));
 
-                            richTextBox3.SelectionFont = regularFont;
-                            richTextBox3.AppendText(valueToShow + "\n");
+                            testsOutput.SelectionFont = regularFont;
+                            testsOutput.AppendText(valueToShow + "\n");
                         }
 
-                        richTextBox3.AppendText("\n");
+                        testsOutput.AppendText("\n");
                     }
                 }
 
-                if (richTextBox3.Text == "" && batch != "")
+                if (testsOutput.Text == "" && batch != "")
                 {
-                    richTextBox3.Text = "No active tests for batch";
+                    testsOutput.Text = "No active tests for batch";
                 }
-                else if (richTextBox3.Text == "")
+                else if (testsOutput.Text == "")
                 {
-                    richTextBox3.Text = "No active tests";
+                    testsOutput.Text = "No active tests";
                 }
             }
             catch (Exception ex)
             {
-                richTextBox3.Text = ex.Message;
+                testsOutput.Text = ex.Message;
             }
         }
     }

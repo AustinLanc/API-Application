@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 
-namespace BatchLookup
+namespace APIApp
 {
     internal static class Program
     {
@@ -15,7 +15,9 @@ namespace BatchLookup
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new LoginForm());
+            /// Uncomment following line to bypass login form
+            /// Application.Run(new Home());
         }
     }
 }
