@@ -65,10 +65,10 @@
             // 
             button1.BackColor = SystemColors.ButtonFace;
             button1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            button1.Location = new Point(4, 259);
+            button1.Location = new Point(7, 272);
             button1.Margin = new Padding(4);
             button1.Name = "button1";
-            button1.Size = new Size(128, 39);
+            button1.Size = new Size(125, 39);
             button1.TabIndex = 0;
             button1.Text = "Search";
             button1.UseVisualStyleBackColor = false;
@@ -90,7 +90,7 @@
             // textBox1
             // 
             textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Location = new Point(7, 40);
+            textBox1.Location = new Point(6, 39);
             textBox1.Margin = new Padding(4);
             textBox1.MaxLength = 7;
             textBox1.Name = "textBox1";
@@ -103,7 +103,7 @@
             groupBox1.Controls.Add(radioButton2);
             groupBox1.Controls.Add(radioButton1);
             groupBox1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            groupBox1.Location = new Point(7, 77);
+            groupBox1.Location = new Point(6, 77);
             groupBox1.Margin = new Padding(4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(4);
@@ -140,7 +140,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label2.Location = new Point(7, 15);
+            label2.Location = new Point(6, 15);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(125, 21);
@@ -151,7 +151,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label3.Location = new Point(158, 15);
+            label3.Location = new Point(156, 15);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(68, 21);
@@ -165,25 +165,27 @@
             // 
             // richTextBox1
             // 
+            richTextBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             richTextBox1.BackColor = SystemColors.ControlLightLight;
             richTextBox1.BorderStyle = BorderStyle.FixedSingle;
-            richTextBox1.Location = new Point(158, 40);
+            richTextBox1.Location = new Point(156, 40);
             richTextBox1.Margin = new Padding(4);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(484, 258);
+            richTextBox1.Size = new Size(531, 280);
             richTextBox1.TabIndex = 7;
             richTextBox1.Text = "";
             // 
             // tabControl1
             // 
+            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
-            tabControl1.Location = new Point(12, 12);
+            tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(657, 339);
+            tabControl1.Size = new Size(703, 363);
             tabControl1.TabIndex = 8;
             // 
             // tabPage1
@@ -198,7 +200,7 @@
             tabPage1.Location = new Point(4, 30);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(649, 305);
+            tabPage1.Size = new Size(695, 329);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Search";
             tabPage1.UseVisualStyleBackColor = true;
@@ -214,7 +216,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(649, 311);
+            tabPage2.Size = new Size(695, 335);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Reminders";
             tabPage2.UseVisualStyleBackColor = true;
@@ -230,12 +232,13 @@
             // 
             // richTextBox2
             // 
+            richTextBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             richTextBox2.BackColor = SystemColors.ControlLightLight;
             richTextBox2.BorderStyle = BorderStyle.FixedSingle;
             richTextBox2.Location = new Point(156, 40);
             richTextBox2.Name = "richTextBox2";
             richTextBox2.ReadOnly = true;
-            richTextBox2.Size = new Size(487, 259);
+            richTextBox2.Size = new Size(531, 281);
             richTextBox2.TabIndex = 3;
             richTextBox2.Text = "";
             // 
@@ -278,7 +281,7 @@
             tabPage3.Location = new Point(4, 30);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(649, 305);
+            tabPage3.Size = new Size(695, 329);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Active Tests";
             tabPage3.UseVisualStyleBackColor = true;
@@ -294,12 +297,13 @@
             // 
             // richTextBox3
             // 
+            richTextBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             richTextBox3.BackColor = SystemColors.ControlLightLight;
             richTextBox3.BorderStyle = BorderStyle.FixedSingle;
             richTextBox3.Location = new Point(156, 40);
             richTextBox3.Name = "richTextBox3";
             richTextBox3.ReadOnly = true;
-            richTextBox3.Size = new Size(487, 259);
+            richTextBox3.Size = new Size(531, 269);
             richTextBox3.TabIndex = 3;
             richTextBox3.Text = "";
             // 
@@ -336,7 +340,7 @@
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(681, 363);
+            ClientSize = new Size(703, 363);
             Controls.Add(tabControl1);
             Font = new Font("Segoe UI", 12F);
             Icon = (Icon)resources.GetObject("$this.Icon");
