@@ -1,8 +1,5 @@
 using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json.Linq;
 
 namespace APIApp
 {
@@ -15,8 +12,13 @@ namespace APIApp
         static void Main()
         {
             ApplicationConfiguration.Initialize();
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             Application.Run(new LoginForm());
-            /// Comment above line and uncomment following line to bypass login form
+            /// To bypass the login form, comment the line above and uncomment below:
             /// Application.Run(new Home());
         }
     }

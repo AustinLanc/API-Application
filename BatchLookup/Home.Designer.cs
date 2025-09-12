@@ -346,6 +346,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "Home";
+            StartPosition = FormStartPosition.CenterScreen;
             routeInput.ResumeLayout(false);
             routeInput.PerformLayout();
             qcTabs.ResumeLayout(false);
